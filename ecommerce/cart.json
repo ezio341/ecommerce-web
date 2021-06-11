@@ -1,0 +1,26 @@
+{
+  "cart": [
+    {
+      "productid": 1,
+      "name": "Cosmos 16 - XDC Kipas Angin / Stand Fan",
+      "price": 220000,
+      "stock": 4,
+      "desc": "● Spesifikasi: Dimensi (PxLxT) : Sekitar 56 cm x 25 cm x 147 cm Berat : 10.9 Kg Daya : 46 Watt Tegangan : 220-240 V/ 50 Hz Level Kecepatan : 3 Pilihan Kecepatan Ukuran baling-baling : 16 inch Warna Random : Black/Green (Tergantung persediaan stock)",
+      "img": "https://cf.shopee.co.id/file/41d1dab01973432b9442a66cee974198",
+      "amount": 1,
+      "rate": 4,
+      "id": 1
+    },
+    {
+      "productid": 4,
+      "name": "KIPAS ANGIN POWER STAND MASPION 20 PW-507",
+      "price": 565000,
+      "stock": 8,
+      "desc": "● Spesifikasi: Daya: 220 V/50 Hz/80 Watt Bahan: Stainless Steel dan Besi Tebal 3 Level Kekuatan angin Ukuran: 20 Inch Rotation Swing System 90 derajat Rotary Switch Thermofuse Safety",
+      "img": "https://cf.shopee.co.id/file/1a3dd110d45c723f5fe5919c295acf65",
+      "amount": 1,
+      "rate": 4,
+      "id": 2
+    }
+  ]
+}

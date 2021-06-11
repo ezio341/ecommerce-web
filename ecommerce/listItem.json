@@ -1,0 +1,59 @@
+{
+    "products":[
+        {
+            "id": 1, 
+            "name": "Cosmos 16 - XDC Kipas Angin / Stand Fan",
+            "price": 220000,
+            "stock": 4,
+            "img": "https://cf.shopee.co.id/file/41d1dab01973432b9442a66cee974198",
+            "desc":"● Spesifikasi: Dimensi (PxLxT) : Sekitar 56 cm x 25 cm x 147 cm Berat : 10.9 Kg Daya : 46 Watt Tegangan : 220-240 V/ 50 Hz Level Kecepatan : 3 Pilihan Kecepatan Ukuran baling-baling : 16 inch Warna Random : Black/Green (Tergantung persediaan stock)",
+            "rate":4
+        },
+        {
+            "id": 2,
+            "name": "Miyako Stand Fan 2in1 KAS-1629KB",
+            "price": 255000,
+            "stock": 5,
+            "img": "https://cf.shopee.co.id/file/748d5d9bb42f16352bc585db4702deeb",
+            "desc":"● Spesifikasi: Dilengkapi juga dengan thermofuse, fungsinya untuk mengamankan dan mencegah terjadinya over-heat pada motor kipas. *Dengan kinerja motor yang halus, Anda tidak akan terganggu ketika ingin tidur untuk mendapatkan udara sejuk. *Memiliki struktur yang kuat dan kokoh",
+            "rate":3
+        },
+        {
+            "id": 3,
+            "name": "Miyako KAS-1637PL Kipas Angin Berdiri",
+            "price": 281000,
+            "stock": 3,
+            "img": "https://id-test-11.slatic.net/p/b0d4a2fea3ba087768a613436e895915.jpg_720x720q80.jpg_.webp",
+            "desc":"● Spesifikasi: Kipas angin ini dilengkapi dengan tiga pilihan kecepatan angin dan tombol stop yang dapat Anda atur sesuai dengan kebutuhan dan luas ruangan di sekitar Anda.",
+            "rate":2
+        },
+        {
+            "id": 4,
+            "name": "KIPAS ANGIN POWER STAND MASPION 20 PW-507",
+            "price": 565000,
+            "stock": 8,
+            "img": "https://cf.shopee.co.id/file/1a3dd110d45c723f5fe5919c295acf65",
+            "desc":"● Spesifikasi: Daya: 220 V/50 Hz/80 Watt Bahan: Stainless Steel dan Besi Tebal 3 Level Kekuatan angin Ukuran: 20 Inch Rotation Swing System 90 derajat Rotary Switch Thermofuse Safety",
+            "rate":4
+        },
+        {
+            "id": 5,
+            "name": "Panasonic Standing Fan - F-EP404 Orange",
+            "price": 579000,
+            "stock": 6,
+            "img": "https://id-test-11.slatic.net/p/15/panasonic-standing-fan-f-ep404-orange-khusus-jabodetabek-2895-75015633-267e8fc8b04e2c37647a552a80a73b6f-catalog.jpg_720x720q80.jpg_.webp",
+            "desc":"● Spesifikasi: Fitur Keunggulan - Body terbuat dari besi - Motor terbuat dari tembaga murni - Switch 3 speed - Switch untuk fitur swing 90 derajat dari kiri ke kanan ",
+            "rate":2
+        },
+        {
+            "id": 6,
+            "name": "Panasonic Desk Fan Kipas Angin EK305 EK306",
+            "price": 417000,
+            "stock": 6,
+            "img": "https://cf.shopee.co.id/file/99e81ece02a0f2113d56437e2c62dc94",
+            "desc":"● Spesifikasi: Merek: Panasonic Tipe Garansi: Garansi Resmi Ukuran: 16 inch Daya: 18 Watt Periode Garansi: 5 tahun",
+            "rate":1
+        }
+    ]
+
+}
