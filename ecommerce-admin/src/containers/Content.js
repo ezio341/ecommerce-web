@@ -5,6 +5,7 @@ import {
 import Products from '../contents/Products'
 import Orders from '../contents/Orders'
 import Users from '../contents/Users'
+import Login from '../contents/Login'
 import { Layout,Breadcrumb } from 'antd';
 
 const {  Content} = Layout;
@@ -20,7 +21,7 @@ const ContentComponent = () =>{
         <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
             <Switch>
                 <Route exact path='/'>
-                    <Products/>
+                    {<Products/>}
                 </Route>
                 <Route exact path='/Orders'>
                     <Orders/>

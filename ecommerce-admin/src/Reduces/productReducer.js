@@ -7,6 +7,16 @@ const ProductReducer = (state=INITIAL_STATE, action) =>{
                 ...state,
                 ...action
             }
+        case 'PRODUCT_DELETE':
+            return {
+                ...state,
+                ...action
+            }
+        case 'PRODUCT_UPDATE':
+            return {
+                ...state,
+                ...action
+            }
         default:
             return{
                 ...state
