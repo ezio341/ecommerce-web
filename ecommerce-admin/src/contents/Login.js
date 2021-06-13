@@ -1,13 +1,22 @@
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, Divider } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
-const Login = () => {
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {authenticate} from '../Action/authAction'
+import { useEffect } from "react";
+
+const Login = (props) => {
+
+
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+    props.authenticate(values.admin)
   };
   return (
     <div style={{ textAlign: "center" }}>
-      <Title>Login</Title>
+      <Title level={2}>Login</Title>
+      <Divider/>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Form
           name="normal_login"
@@ -18,21 +27,22 @@ const Login = () => {
           onFinish={onFinish}
         >
           <Form.Item
-            name="username"
+            name={["admin","email"]}
             rules={[
               {
                 required: true,
-                message: "Please input your Username!",
+                message: "Please input your Email!"
               },
             ]}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username"
+              type='email'
+              placeholder="Email"
             />
           </Form.Item>
           <Form.Item
-            name="password"
+            name={["admin","password"]}
             rules={[
               {
                 required: true,
@@ -71,4 +81,14 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps =(state) =>{
+  return{}
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return bindActionCreators({
+    authenticate
+  }, dispatch)
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login);

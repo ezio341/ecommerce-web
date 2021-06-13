@@ -31,7 +31,6 @@ const UserComponent = (props)=>{
                 dataIndex: 1,
                 key: "name",
                 render: (info) => {
-                    console.log(info)
                     return info.name
                 }
             },
@@ -49,7 +48,7 @@ const UserComponent = (props)=>{
             }
         ]
         
-        return <Table columns={column} dataSource={users} loading={userLoading}/>
+        return <Table columns={column} dataSource={users} loading={userLoading} />
     }
     return (
         <UserTable/>

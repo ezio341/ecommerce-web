@@ -3,15 +3,18 @@ import {
   UserOutlined
 } from '@ant-design/icons'
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {signout} from '../Action/authAction'
 
 const { Header } = Layout;
 
-const HeaderComponent = () => {
+const HeaderComponent = (props) => {
   const dropdownMenu = () =>{
     return(
       <Menu>
       <Menu.Item>
-        <a>
+        <a onClick={()=>props.signout()}>
           Logout
         </a>
       </Menu.Item>
@@ -21,15 +24,14 @@ const HeaderComponent = () => {
   return (
     <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
       <div className="logo" />
+      {props.auth.auth && 
       <Dropdown className='float-right' overlay={dropdownMenu} placement='bottomRight' arrow>
-        <a className='float-right'><UserOutlined style={{fontSize: 20}}/></a>
+        <a className='float-right'><UserOutlined style={{fontSize: 20}} /></a>
       </Dropdown>
+      }
       <Menu theme="dark" mode="horizontal">
         <Menu.Item key="1">
           <Link to="/">Products</Link>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <Link to="/Orders">Orders</Link>
         </Menu.Item>
         <Menu.Item key="3">
           <Link to="/Users">Users</Link>
@@ -39,5 +41,16 @@ const HeaderComponent = () => {
   );
 };
 
+const mapStateToProps = (state) =>{
+  return {
+    ...state
+  }
+}
 
-export default HeaderComponent;
+const mapDispatchToProps = (dispatch) =>{
+  return bindActionCreators({
+    signout
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (HeaderComponent);

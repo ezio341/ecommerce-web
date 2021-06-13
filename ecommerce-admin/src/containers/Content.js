@@ -3,14 +3,14 @@ import {
     Switch
 } from 'react-router-dom'
 import Products from '../contents/Products'
-import Orders from '../contents/Orders'
 import Users from '../contents/Users'
 import Login from '../contents/Login'
 import { Layout,Breadcrumb } from 'antd';
+import { connect } from "react-redux";
 
 const {  Content} = Layout;
 
-const ContentComponent = () =>{
+const ContentComponent = (props) =>{
     return(
         <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
         <Breadcrumb style={{ margin: '16px 0' }}>
@@ -21,13 +21,10 @@ const ContentComponent = () =>{
         <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
             <Switch>
                 <Route exact path='/'>
-                    {<Products/>}
-                </Route>
-                <Route exact path='/Orders'>
-                    <Orders/>
+                    {props.auth.auth ? <Products/>:<Login/> }
                 </Route>
                 <Route exact path='/Users'>
-                    <Users/>
+                    {props.auth.auth ? <Users/>:<Login/> }
                 </Route>
             </Switch>
         </div>
@@ -35,4 +32,9 @@ const ContentComponent = () =>{
     )
 }
 
-export default ContentComponent
+const mapStateToProps = (state) =>{
+    return {
+        ...state
+    }
+}
+export default connect(mapStateToProps)(ContentComponent)
