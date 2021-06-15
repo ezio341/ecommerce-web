@@ -21,10 +21,10 @@ const ContentComponent = (props) =>{
         <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
             <Switch>
                 <Route exact path='/'>
-                    {props.auth.auth ? <Products/>:<Login/> }
+                    {props.isAuthenticated ? <Products/>:<Login/> }
                 </Route>
                 <Route exact path='/Users'>
-                    {props.auth.auth ? <Users/>:<Login/> }
+                    {props.isAuthenticated ? <Users/>:<Login/> }
                 </Route>
             </Switch>
         </div>

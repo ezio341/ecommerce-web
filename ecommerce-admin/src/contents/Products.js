@@ -10,6 +10,8 @@ import {
   Popconfirm,
   Modal,
   Divider,
+  Alert,
+  Tooltip,
 } from "antd";
 import Title from "antd/lib/typography/Title";
 import { useState, useEffect } from "react";
@@ -19,34 +21,39 @@ import {
   fetchProduct,
   addProduct,
   deleteProduct,
-  updateProduct
+  updateProduct,
 } from "../Action/productAction";
-import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
+import {
+  DeleteTwoTone,
+  EditTwoTone,
+  SearchOutlined,
+  ArrowRightOutlined,
+  ArrowLeftOutlined,
+} from "@ant-design/icons";
 
 const ProductComponent = (props) => {
   const [data, setData] = useState([]);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [productUpdate, setProductUpdate] = useState({})
+  const [productUpdate, setProductUpdate] = useState({});
   const [dataloading, setDataloading] = useState(true);
-  const [componentSize, setComponentSize] = useState("default");
 
   useEffect(() => {
     props.fetchProduct();
   }, []);
 
   useEffect(() => {
-    if (props.products !== null) {
-      setData(props.products.products);
-      setDataloading(props.products.loading);
+    if (props.product !== null) {
+      setData(props.product.products);
+      setDataloading(props.product.loading);
     }
-  }, [props.products]);
+  }, [props.product]);
 
-  const onFormLayoutChange = ({ size }) => {
-    setComponentSize(size);
-  };
   const onAddFinish = (values) => {
     let body = {
       ...values.product,
+      rate: parseInt(values.product.rate),
+      price: parseInt(values.product.price),
+      stock: parseInt(values.product.stock),
       id: "PROD" + new Date().getTime().toString(),
     };
     props.addProduct(body);
@@ -59,12 +66,8 @@ const ProductComponent = (props) => {
         }}
         wrapperCol={{}}
         layout="vertical"
-        initialValues={{
-          size: componentSize,
-        }}
+        initialValues={{}}
         onFinish={onAddFinish}
-        onValuesChange={onFormLayoutChange}
-        size={componentSize}
       >
         <Form.Item
           name={["product", "name"]}
@@ -78,7 +81,7 @@ const ProductComponent = (props) => {
           label="Image Link"
           rules={[{ required: true }]}
         >
-          <Input/>
+          <Input />
         </Form.Item>
         <Form.Item
           name={["product", "desc"]}
@@ -109,7 +112,7 @@ const ProductComponent = (props) => {
           <Input type="number" />
         </Form.Item>
         <Form.Item style={{ textAlign: "center" }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={dataloading}>
             Submit
           </Button>
         </Form.Item>
@@ -120,8 +123,29 @@ const ProductComponent = (props) => {
   const deleteProduct = (id) => {
     props.deleteProduct(id);
   };
-
+  const [onSearchError, setOnSearchError] = useState(false);
+  const onSearch = (text) => {
+    if (text.target.value) {
+      let searchedData = props.product.products.filter((item) => {
+        return item.name.toLowerCase().match(text.target.value.toLowerCase());
+      });
+      if (searchedData.length > 0) {
+        setData(searchedData);
+        setOnSearchError(false);
+      } else {
+        setData(props.product.products);
+        setOnSearchError(true);
+      }
+    } else {
+      setData(props.product.products);
+    }
+  };
   const ProductTable = () => {
+    const fontSize = (size) => {
+      return {
+        fontSize: size,
+      };
+    };
     const columns = [
       {
         title: "Image",
@@ -138,6 +162,7 @@ const ProductComponent = (props) => {
         title: "Price",
         dataIndex: "price",
         key: "price",
+        sorter: (a, b) => a.price - b.price,
       },
       {
         title: "Description",
@@ -162,18 +187,22 @@ const ProductComponent = (props) => {
         render: (id, item) => {
           return (
             <div>
-                <Space direction='horizontal'>
-              <Popconfirm
-                title="Sure to Delete?"
-                onConfirm={() => deleteProduct(id)}
-              >
-                <a>
-                  <DeleteTwoTone twoToneColor="red" width={100} />
+              <Space direction="horizontal">
+                <Popconfirm
+                  title="Sure to Delete?"
+                  onConfirm={() => deleteProduct(id)}
+                >
+                  <a>
+                    <DeleteTwoTone
+                      twoToneColor="red"
+                      width={100}
+                      style={fontSize(16)}
+                    />
+                  </a>
+                </Popconfirm>
+                <a onClick={() => showUpdate(item)}>
+                  <EditTwoTone style={fontSize(16)} />
                 </a>
-              </Popconfirm>
-              <a onClick={()=>showUpdate(item)}>
-                <EditTwoTone />
-              </a>
               </Space>
             </div>
           );
@@ -182,31 +211,37 @@ const ProductComponent = (props) => {
     ];
     return (
       <Table
-        bordered
         size="small"
         loading={dataloading}
         columns={columns}
         dataSource={data}
+        style={{alignSelf: 'stretch'}}
       />
     );
   };
 
   const updateProduct = (product) => {
-    props.updateProduct(product)
+    let body = {
+      ...product,
+      rate: parseInt(product.rate),
+      price: parseInt(product.price),
+      stock: parseInt(product.stock),
+    };
+    props.updateProduct(body);
   };
   const showUpdate = (item) => {
     setShowUpdateModal(true);
-    setProductUpdate(item)
+    setProductUpdate(item);
   };
   const closeUpdate = () => {
     setShowUpdateModal(false);
   };
 
   const UpdateModal = () => {
-      const onUpdateFinish = (values)=>{
-        updateProduct(values.product)
-        closeUpdate()
-      }
+    const onUpdateFinish = (values) => {
+      updateProduct(values.product);
+      closeUpdate();
+    };
     return (
       <Modal
         title="Update"
@@ -220,91 +255,121 @@ const ProductComponent = (props) => {
           }}
           wrapperCol={{}}
           layout="vertical"
-          onFinish = {onUpdateFinish}
+          onFinish={onUpdateFinish}
           initialValues={{
-            size: componentSize,
+            product: productUpdate,
           }}
-          // onFinish={}
-          size={componentSize}
         >
-          <Form.Item
-            name={["product", "id"]}
-            initialValue={productUpdate.id}
-            noStyle
-          />
+          <Form.Item name={["product", "id"]} noStyle />
           <Form.Item
             name={["product", "name"]}
             label="Product Name"
-            initialValue={productUpdate.name}
             rules={[{ required: true }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Form.Item
             name={["product", "img"]}
             label="Image Link"
-            initialValue={productUpdate.img}
             rules={[{ required: true }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Form.Item
             name={["product", "desc"]}
             label="Description"
-            initialValue={productUpdate.desc}
             rules={[{ required: true }]}
           >
-            <Input.TextArea />
+            <Input.TextArea rows={4} />
           </Form.Item>
           <Form.Item
             name={["product", "price"]}
             label="Price"
-            initialValue={productUpdate.price}
             rules={[{ required: true }]}
           >
-            <Input type="number"/>
+            <Input type="number" />
           </Form.Item>
           <Form.Item
             name={["product", "rate"]}
             label="Rating"
-            initialValue={productUpdate.rate}
             rules={[{ required: true }]}
           >
-            <Input type="number"/>
+            <Input type="number" />
           </Form.Item>
           <Form.Item
             name={["product", "stock"]}
             label="Stock"
-            initialValue={productUpdate.stock}
             rules={[{ required: true }]}
           >
-            <Input type="number"/>
+            <Input type="number" />
           </Form.Item>
           <Form.Item style={{ textAlign: "center" }}>
-            <Button type="primary" htmlType="submit" >
-              Submit
-            </Button>
+            <Space>
+              <Button type="ghost" onClick={closeUpdate}>
+                Cancel
+              </Button>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Space>
           </Form.Item>
         </Form>
       </Modal>
     );
   };
-
+  const [displayAddForm, setDisplayAddForm] = useState("none");
+  const isDisplayAddForm = displayAddForm === 'none'?false:true
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <Row gutter={24}>
-        <Col span={8}>
+        <Col span={isDisplayAddForm ? (
+                6
+              ) : (
+                0
+              )} style={{ display: displayAddForm }}>
           <Title level={3} style={{ textAlign: "center" }}>
             Add Product
           </Title>
           <AddProductForm />
         </Col>
-        <Col span={1} >
-            <Divider type='vertical' style={{height:'100%'}}/>
+        <Col span={1} style={{display:'flex', flexDirection:'column',alignItems:'flex-start'}}>
+          <Tooltip  title={'Add New Product'} placement='bottom'>
+          <Button
+            shape="circle"
+            onClick={() =>
+              displayAddForm === "none"
+                ? setDisplayAddForm("inline")
+                : setDisplayAddForm("none")
+            }
+            icon={
+              !isDisplayAddForm ? (
+                <ArrowRightOutlined />
+              ) : (
+                <ArrowLeftOutlined />
+              )
+            }
+          />
+          </Tooltip>
         </Col>
-        <Col span={15}>
-          <ProductTable />
-          <UpdateModal/>
+        <Col span={displayAddForm === "none" ? (
+                23
+              ) : (
+                17
+              )}>
+            <Space direction="vertical">
+              <Input
+                size="large"
+                placeholder="Search Products"
+                prefix={<SearchOutlined />}
+                onChange={onSearch}
+                style={{ width: 300, marginBottom: 10}}
+              />
+              {onSearchError && (
+                <Alert type="error" message="Cannot Find Product" closable />
+              )}
+            </Space>
+            <ProductTable />
+          <UpdateModal />
         </Col>
       </Row>
     </div>
@@ -312,7 +377,7 @@ const ProductComponent = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return { products: state.product };
+  return { ...state };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -321,7 +386,7 @@ const mapDispatchToProps = (dispatch) => {
       fetchProduct,
       addProduct,
       deleteProduct,
-      updateProduct
+      updateProduct,
     },
     dispatch
   );

@@ -26,3 +26,27 @@ export const fetchUser = ()=>{
         })
     }
 }
+
+export const updateUser = (user) =>{
+    return dispatch =>{
+        dispatch({
+            type:'USER_UPDATE',
+            status: 'UPDATE_LOADING',
+            loading: true
+        })
+        const userRef = firebaseApp.database().ref(`/users/${user.id}`)
+        userRef.update(user).then(val=>{
+            dispatch({
+                type:'USER_UPDATE',
+                status: 'UPDATE_SUCCESS',
+                loading: false
+            })
+        }, err=>{
+            dispatch({
+                type:'USER_UPDATE',
+                status: 'UPDATE_FAILED',
+                loading: false
+            })
+        })
+    }
+}

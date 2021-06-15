@@ -1,28 +1,42 @@
-import { Form, Input, Button, Checkbox, Divider } from "antd";
+import { Form, Input, Button, Checkbox, Divider, Alert } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {authenticate} from '../Action/authAction'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Login = (props) => {
+  const [loginError, setLoginError] = useState(false)
+  const [loading, setLoading] = useState(false)
 
+  useEffect(()=>{
+    if(props.auth.status === 'SIGNIN_FAILED'){
+      setLoginError(true)
+    }
+    if(props.auth){
+      setLoading(props.auth.loading)
+    }
+    console.log(props)
+  }, [props.auth])
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
     props.authenticate(values.admin)
   };
+  const onCloseAlert = () =>{
+    setLoginError(false)
+  }
   return (
     <div style={{ textAlign: "center" }}>
       <Title level={2}>Login</Title>
       <Divider/>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center", alignContent:'center', flexDirection:'column', flexWrap:'wrap'}}>
+      { loginError &&<Alert  type='error' message='Login Error!' description='Invalid email/ password' onClose={onCloseAlert} closable style={{ marginBottom:10 }}/>}
         <Form
           name="normal_login"
           className="login-form"
           initialValues={{
-            remember: true,
+            remember: true
           }}
           onFinish={onFinish}
         >
@@ -50,9 +64,8 @@ const Login = (props) => {
               },
             ]}
           >
-            <Input
+            <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
               placeholder="Password"
             />
           </Form.Item>
@@ -71,6 +84,7 @@ const Login = (props) => {
               type="primary"
               htmlType="submit"
               className="login-form-button"
+              loading={loading}
             >
               Log in
             </Button>
@@ -82,7 +96,7 @@ const Login = (props) => {
 };
 
 const mapStateToProps =(state) =>{
-  return{}
+  return{...state}
 }
 
 const mapDispatchToProps = (dispatch) =>{
