@@ -6,13 +6,14 @@ import {
     Route
 } from 'react-router-dom'
 import './style.css'
-import { Layout, Menu} from 'antd'
+import { Layout, Menu, Space, Switch as SwitchCom} from 'antd'
 import {
     ShopFilled,
     ShoppingOutlined,
     UserOutlined,
     HomeOutlined,
-    ShoppingCartOutlined
+    ShoppingCartOutlined,
+    SettingFilled
   } from '@ant-design/icons'
 import Header from './Header'
 import Footer from './Footer'
@@ -30,7 +31,9 @@ class MainPage extends Component {
     state = {
         collapsed: false,
         menuSelected: '1.1',
-        layoutMarginLeft: 200
+        layoutMarginLeft: 200,
+        theme: 'dark',
+        themeChecked: false
       };
     
     onCollapse = collapsed => {
@@ -43,12 +46,17 @@ class MainPage extends Component {
         }
     };
 
+    switchTheme = value =>{
+        this.setState({theme: value?'light':'dark', themeChecked: value? true:false})
+    }
+
     render() {
-        const {collapsed, menuSelected} = this.state
+        const {collapsed, menuSelected, theme, themeChecked} = this.state
         return (
         <Layout style={{ minHeight: '100vh' }}>
             <Router>
             <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse} 
+            theme={theme}
             style={{
                 overflow: 'hidden',
                 height: '100vh',
@@ -56,7 +64,7 @@ class MainPage extends Component {
                 left: 0,
             }}>
                 <div className="logo" />
-                    <Menu theme="dark" defaultSelectedKeys={[menuSelected]} mode="inline">
+                    <Menu theme="dark" defaultSelectedKeys={[menuSelected]} mode="inline" theme={theme}>
                         <SubMenu key="1" title='Shop' icon={<ShopFilled />}>
                             <Menu.Item key="1.1" icon={<HomeOutlined/>}>
                                 <Link to='/'>Home</Link>
@@ -74,25 +82,32 @@ class MainPage extends Component {
                         <Menu.Item key="4" icon={<UserOutlined/>}>
                             <Link to='/User'>User</Link>
                         </Menu.Item>
+                        <SubMenu key="5" icon={<SettingFilled/>} title='Setting'>
+                            <Menu.Item key='5.1'>
+                                <Space size={30}>
+                                Mode : <SwitchCom checked={themeChecked} size='default' onChange={this.switchTheme} checkedChildren={theme} unCheckedChildren={theme}></SwitchCom>
+                                </Space>
+                            </Menu.Item>
+                        </SubMenu>
                     </Menu>
             </Sider>
             <Layout className="site-layout" style={{ marginLeft: this.state.layoutMarginLeft , transitionDuration: '0.3s'}}>
                 <Header/>
                 <Switch>
                     <Route exact path='/'>
-                        <Home/>
+                        <Home theme={theme}/>
                     </Route>
                     <Route exact path='/Cart'>
-                        <Cart/>
+                        <Cart theme={theme}/>
                     </Route>
                     <Route exact path='/User'>
-                        <User/>
+                        <User theme={theme}/>
                     </Route>
                     <Route exact path='/Products'>
-                        <Product/>
+                        <Product theme={theme}/>
                     </Route>
                     <Route exact path='/About'>
-                        <About/>
+                        <About theme={theme}/>
                     </Route>
                 </Switch>
                 <Footer/>

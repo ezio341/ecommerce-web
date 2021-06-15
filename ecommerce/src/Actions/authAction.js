@@ -6,7 +6,10 @@ export const authenticate = (username, password) =>{
         dispatch({
             type: 'USER_AUTH',
             loading: true,
-            data:[]
+            data:[],
+            user: {
+                uname: username
+            }
         })
         FirebaseApp.auth().signInWithEmailAndPassword(username, password)
             .then(credential=>{
@@ -75,9 +78,7 @@ export const register = (user)=>{
                 auth: false,
                 loading: false,
                 loginfailed: true,
-                user: {
-                    uname: user.email
-                }
+                user: null
             })
         })
     }

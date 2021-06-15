@@ -10,11 +10,12 @@ import {
   Avatar,
   Space,
   Typography,
+  Popconfirm
 } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { bindActionCreators } from "redux";
 import { authenticate, logout , register} from "../Actions/authAction";
-import { getuserinfo } from "../Actions/userAction";
+import { getuserinfo, deleteAccount} from "../Actions/userAction";
 import { connect } from "react-redux";
 import SignInSVG from "../Assets/Sign_in.svg";
 import ProfileSVG from "../Assets/profile.svg";
@@ -28,6 +29,7 @@ class Cont extends Component {
     differPassword: false
   };
   componentDidMount() {
+    console.log(this.props)
     this.props.getuserinfo(
       this.props.auth.auth ? this.props.auth.user.uname.replace(".", "_") : ""
     );
@@ -88,15 +90,22 @@ class Cont extends Component {
           </Form.Item>
 
           <Form.Item>
+            <Space direction='vertical'>
+          <Link onClick={toRegister}>Create New Account</Link>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
+            </Space>
           </Form.Item>
         </Form>
-        <Link onClick={toRegister}>Create New Account</Link>
       </div>
     );
   };
+  deleteAcc = () =>{
+    console.log(this.props)
+    this.props.deleteAccount()
+    this.props.logout()
+  }
   Profile = () => {
     return (
       <div style={{ paddingTop: 10, paddingBottom: 10 }}>
@@ -122,12 +131,17 @@ class Cont extends Component {
               alignItems: "center",
             }}
           >
-            <Avatar size={100} icon={<UserOutlined />} src='https://picsum.photos/400/400'/>
+            <Avatar size={100} icon={<UserOutlined />}/>
             <Space direction="vertical">
               <Text>Name : {this.props.user.name}</Text>
               <Text>Address : {this.props.user.address}</Text>
               <Text>Phone : {this.props.user.phone}</Text>
             </Space>
+          </div>
+          <div style={{display:'flex', justifyContent:'center', marginTop: 54}}>
+            <Popconfirm okText='Yes' cancelText='No' title='Do you want to delete this account?' onConfirm={()=>this.deleteAcc()}>
+            <Button type='ghost' onClick={()=>this.deleteAccount}>Delete This Account</Button>
+            </Popconfirm>
           </div>
         </Card>
       </div>
@@ -165,7 +179,7 @@ class Cont extends Component {
       const onFinish = (values) => {
         if(values.user.password === values.user.confirmPassword){
           this.props.register(values.user)
-          this.props.getuserinfo(values.email)
+          this.props.getuserinfo(values.user.email)
         }else{
           this.setState({differPassword: true})
         }
@@ -315,7 +329,8 @@ const mapDispatchToProps = (dispatch) => {
       authenticate,
       logout,
       getuserinfo,
-      register
+      register,
+      deleteAccount
     },
     dispatch
   );

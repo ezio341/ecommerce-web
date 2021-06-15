@@ -7,16 +7,12 @@ const AUTH = (state=INITIAL_DATA, action) =>{
         case 'USER_AUTH':
             return {
                 ...state,
-                auth: action.auth,
-                user: action.user,
-                loading: action.loading,
-                loginfailed: action.loginfailed
+                ...action
             }
         case 'USER_LOGOUT':
             return {
                 ...state,
-                auth: action.auth,
-                loading: action.loading
+                ...action
             }
         default:
             return state

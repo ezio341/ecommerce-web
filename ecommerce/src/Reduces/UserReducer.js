@@ -4,9 +4,12 @@ const UserReducer = (state={}, action)=>{
         case 'USER_GET':
             return {
                 ...state,
-                ...action.payload,
-                status: action.status,
-                userloading: action.loading
+                ...action
+            }
+        case 'USER_DELETE':
+            return {
+                ...state,
+                ...action
             }
         default:
             return state
