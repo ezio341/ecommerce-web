@@ -24,7 +24,7 @@ const HeaderComponent = (props) => {
   return (
     <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
       <div className="logo" />
-      {props.auth.auth && 
+      {props.isAuthenticated && 
       <Dropdown className='float-right' overlay={dropdownMenu} placement='bottomRight' arrow>
         <a className='float-right'><UserOutlined style={{fontSize: 20}} /></a>
       </Dropdown>

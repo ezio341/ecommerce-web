@@ -168,7 +168,7 @@ const ProductComponent = (props) => {
         title: "Description",
         dataIndex: "desc",
         key: "desc",
-        render: (text) => text.substring(0, 100),
+        render: (text) => text.substring(0, 100)+'...',
       },
       {
         title: "Rating",

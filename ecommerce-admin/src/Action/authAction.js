@@ -19,6 +19,8 @@ export const authenticate = (admin) =>{
                         auth : true,
                         userid: idToken.token
                     })
+                    localStorage.setItem('_authadm', true)
+                    localStorage.setItem('_authdatetime', new Date().getTime())
                 })
             }, err=>{
                 dispatch({
@@ -29,6 +31,18 @@ export const authenticate = (admin) =>{
                     userid: null
                 })
             })
+    }
+}
+
+export const verifySession = () =>{
+    return dispatch =>{
+        const user = localStorage.getItem('_authadm')
+        if(user){
+            dispatch({
+                type:'AUTH_SESSION',
+                auth: user
+            })
+        }
     }
 }
 
@@ -48,6 +62,7 @@ export const signout = () =>{
                 userid: null
 
             })
+            localStorage.clear()
         }, err=>{
             dispatch({
                 type: 'AUTH_SIGNOUT',

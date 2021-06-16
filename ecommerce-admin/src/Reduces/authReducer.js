@@ -12,6 +12,11 @@ const AuthReducer = (state = INITIAL_STATE, action) =>{
                 ...state,
                 ...action
             }
+        case 'AUTH_SESSION':
+            return{
+                ...state,
+                ...action
+            }
         default:
             return {
                 ...state
