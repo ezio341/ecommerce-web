@@ -322,11 +322,11 @@ const ProductComponent = (props) => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <Row gutter={24}>
-        <Col span={isDisplayAddForm ? (
+        <Col className='animate-box' span={isDisplayAddForm ? (
                 6
               ) : (
                 0
-              )} style={{ display: displayAddForm }}>
+              )} style={{ display: displayAddForm }} >
           <Title level={3} style={{ textAlign: "center" }}>
             Add Product
           </Title>

@@ -17,7 +17,6 @@ const Login = (props) => {
     if(props.auth){
       setLoading(props.auth.loading)
     }
-    console.log(props)
   }, [props.auth])
 
   const onFinish = (values) => {
